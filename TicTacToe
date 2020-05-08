@@ -1,0 +1,87 @@
+import numpy as np   #import numpy Package
+
+
+ticoc = np.array([[0,0,0],[0,0,0],[0,0,0]],dtype=object) #Initiate a 3x3 matrix filled with '0'
+player,plyrsign = 'Player1','*' #Initiate the first player and sign
+player1,player2 = 0,0   #Both players start with 0 points
+print('NOTE:Please input the x and y positions in the format: Value1 Value2')
+while 0 in ticoc:           #check if all the spaces are filled by users
+    try:                    #check if valid inputs are provided
+        print('{}\'s turn please enter the position'.format(player)) 
+        x,y = list(map(int,input().split())) #Get the input from user
+        if ticoc[x,y] == 0:    # check if the space is already filled
+            ticoc[x,y] = plyrsign    #assign the sign and print the current game's condition
+            print(ticoc)
+            if player == 'Player1':   #switch the players and signs
+                player,plyrsign = 'Player2','#'
+            else:    
+                player,plyrsign = 'Player1','*'
+        else:  # Alert users if the space is already occupied
+             print('The space is already filled please select a differnt position')
+    except ValueError: #Prompt the user to add input in a proper format
+        print('Please enter 2 values for the x and y positions in the format: Value1 Value2')
+    except IndexError:  #Prompt the user if the input is out of range
+        print('Please enter positions between 0 to 2')
+
+
+ticoc1 = np.transpose(ticoc)
+
+columns = np.all(ticoc == ticoc[0,:],axis=0) #To get the columns that are equal
+rows = np.all(ticoc1 == ticoc1[0,:],axis=0) #To get the rows that are equal
+
+
+valuec,valuer = 0,0 #Values set for diagonals
+ 
+for i in columns:  # To set points for player1 and player according to columns
+    if i:
+        if ticoc[0][valuec] == '*':
+            player1 += 1
+        else:
+            player2 += 1
+    valuec += 1
+
+for i in rows:  # To set points for player1 and player according to rows
+    if i:
+        if ticoc[valuer][0] == '*':
+            player1 += 1
+        else:
+            player2 += 1
+    valuer += 1
+
+diagonal1 = ticoc[0][0] == ticoc[1][1] == ticoc[2][2]  #TO check if the values of diagonals are equal  
+diagonal2 = ticoc[0][2] == ticoc[1][1] == ticoc[2][0]
+
+if diagonal1:             #If true check if player1 has the point or player2
+    if ticoc[0][0] == '*':
+        player1 += 1
+    else:
+        player2 += 1   
+
+        
+if diagonal2:
+    if ticoc[0][2] == '*':
+        player1 += 1
+    else:
+        player2 += 1        
+
+if player1 > player2:     #Declare the winner (*__*)
+    print('Congrats!! Player1 you made it with {} points'.format(player1))
+elif player2 > player1:
+    print('Congrats!! Player2 you made it with {} points'.format(player2))
+elif player1 == player2 != 0:
+    print('Uffo!! Guys it\'s a  draw with {} points each'.format(player1))
+else:
+    print('OOpsie none of you have any points')
+    
+    
+    
+        
+
+        
+
+
+
+        
+
+
+    
