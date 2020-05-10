@@ -1,0 +1,63 @@
+import random  #Import necessary modules
+
+start = 1
+
+while start:
+    try:
+        Level = int(input('Please enter the Level number you want to play:\n1-->Beginner\n2-->Intermediate\n3-->Advanced\n')) #Prompt the user to enter a level
+        initialsedAttempts = 10 if Level == 1 else 5 if Level == 2 else 3 if Level == 3 else 0
+        start = 0
+    except:
+        print('That\'s  not a valid option\n')
+
+
+with open("words.txt","r") as f: #Open the file
+    Lines = f.readlines()          #Get all the words 
+    totalWord = len(Lines)-1#Total  number of wordsproperword = Lines[random.randrange(totalWord)]
+    word = list(Lines[random.randrange(totalWord)])#Get a random word
+    word = word[:len(word)-1]
+    def guessTheWord(totalAttempts):#Function to guess the word
+        Attempts = totalAttempts                  #Initiating the attempts and informing the same to the user
+        print('You have {} attempts\n'.format(totalAttempts))
+        print('The word has {} letters'.format(len(word)))
+        Guessed = ''   #Store the already guessed letters
+        while Attempts:
+            try:
+                letter = input('Enter a letter:\t')#Enter the letter
+                if not letter.isalpha():
+                    print('Please enter a valid letter')
+                if letter in Guessed:
+                    print('{} is already guessed'.format(letter))
+                elif letter in word:                 #check if the letter exists
+                    repeated = word.count(letter)   #count the letter and output the number of times it has appeared
+                    print('Yes it has appeared {} times'.format(repeated))
+                    Guessed = Guessed+str(letter * repeated)
+                    print('The guessed letters are {}'.format(list(Guessed)))  #Output all the guessed letters
+                else:
+                    print('{} is not present in the word'.format(letter))    #If the guessed letter is  not present output the same
+            except:
+                print(Error)
+            if list(word) == list(Guessed):  #If user guessed the word without using all the attempts
+                print("Congrats!! You guessed all the letters the answer is : {}".format(word))
+                break
+            Attempts -= 1 #Decrease the number of attempts and mention the number of attempst left
+            if Attempts: #Check if user has any attempts left
+                print('You have {} attempts left\n'.format(Attempts))
+            else:    #If no attempts left user needs to guess the word for one last time
+                guessword = input('You are out of attempts give one last attempt to guess the complete word:')
+                if list(word) == list(guessword):  #If user guessed the word without using all the attempts
+                    print("Congrats!! You guessed all the letters the answer is : {}".format(''.join(word).upper()))
+                else:
+                    print("OOpsie!!The word is {}".format(''.join(word).upper()))
+
+
+if initialsedAttempts:  #To check if the level chosen was proper
+    guessTheWord(initialsedAttempts)
+else:
+    print('You didn\'t choose a proper level hence exiting the game')
+
+                
+            
+           
+        
+    
